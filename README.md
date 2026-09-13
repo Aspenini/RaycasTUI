@@ -1,13 +1,13 @@
 # Raycast TUI
 
-A cross-platform terminal-based raycaster written in Rust. Experience a classic 3D-style rendering in your terminal!
+A cross-platform terminal raycaster written in Rust 2024. Classic DDA perspective in any ANSI 256-color terminal.
 
 ## Features
 
-- **Cross-platform**: Works on Windows, Linux, and macOS
-- **Terminal-based**: No OS-specific code, pure terminal rendering
-- **Real-time raycasting**: Smooth 3D-style rendering using raycasting algorithm
-- **Interactive controls**: Move and rotate your view in real-time
+- **Cross-platform**: Windows, Linux, and macOS via crossterm
+- **Half-block rendering**: two vertical pixels per character cell
+- **Held-key movement**: frame-rate independent, with wall sliding
+- **Safe shutdown**: the terminal is restored on quit, error, or panic
 
 ## Controls
 
@@ -17,11 +17,11 @@ A cross-platform terminal-based raycaster written in Rust. Experience a classic 
 - **D**: Strafe right
 - **←**: Rotate left
 - **→**: Rotate right
-- **Q / Esc**: Quit
+- **Q / Esc / Ctrl+C**: Quit
 
 ## Building
 
-Make sure you have Rust installed. Then:
+Rust 1.85 or newer is required.
 
 ```bash
 cargo build --release
@@ -39,18 +39,19 @@ Or run the release binary directly:
 ./target/release/raycast-tui
 ```
 
+On Windows that is `target\release\raycast-tui.exe`.
+
 ## How It Works
 
-The raycaster uses a DDA (Digital Differential Analyzer) algorithm to cast rays from the player's viewpoint. Each ray determines the distance to the nearest wall, which is then used to calculate the height of the wall column on screen. Different colors represent different distances, creating a depth effect.
+Rays are cast with a Digital Differential Analyzer (DDA) from the player's camera plane. Each ray's perpendicular wall distance sets the column height; east/west vs north/south hits are shaded differently for depth. The map is a compile-time 24×24 grid (`#` is a wall). Movement uses delta time so speed stays consistent if a frame hiccups.
 
-The map is represented as a 2D grid where `1` represents walls and `0` represents empty space. The player can move and rotate within this space, and the raycaster renders the 3D perspective in real-time.
+The renderer writes a single ANSI frame per tick using `▀` half-blocks, so each terminal cell shows two stacked 256-color pixels.
 
 ## Requirements
 
-- Rust 1.70+ (edition 2021)
-- A terminal that supports ANSI colors
+- Rust 1.85+ (edition 2024)
+- A terminal that supports ANSI 256-color output
 
 ## License
 
 This project is open source and available for use.
-

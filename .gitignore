@@ -3,8 +3,7 @@
 **/*.rs.bk
 *.pdb
 
-# Cargo
-Cargo.lock
+# Cargo.lock is committed for this binary crate.
 
 # IDE - VSCode
 .vscode/

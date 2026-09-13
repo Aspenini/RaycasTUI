@@ -1,8 +1,18 @@
 [package]
-name = "RaycasTUI"
-version = "0.1.0"
-edition = "2021"
+name = "raycast-tui"
+version = "0.2.0"
+edition = "2024"
+rust-version = "1.85"
+description = "A cross-platform terminal raycaster"
+readme = "README.md"
+publish = false
 
 [dependencies]
-crossterm = "0.28"
+crossterm = "0.29"
 
+[lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
